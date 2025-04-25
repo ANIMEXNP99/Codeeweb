@@ -1,0 +1,14 @@
+Django==5.2
+django-crispy-forms==2.1
+email-validator==2.1.0
+Flask==3.0.2
+Flask-Login==0.6.3
+Flask-SQLAlchemy==3.1.0
+Flask-WTF==1.2.1
+gunicorn==23.0.0
+Pillow==10.2.0
+psycopg2-binary==2.9.9
+requests==2.31.0
+Werkzeug==3.0.1
+WTForms==3.1.1
+SQLAlchemy==2.0.25

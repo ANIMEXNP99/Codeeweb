@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="cyber-card p-4 mb-4">
+                <h2 class="text-center mb-4">Login to CoderX</h2>
+                
+                <form id="login-form" method="POST" action="{{ url_for('login') }}">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="form-group mb-3">
+                        <label for="username" class="form-label">{{ form.username.label }}</label>
+                        {{ form.username(class="form-control cyber-input", id="username", placeholder="Enter your username") }}
+                        {% for error in form.username.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="form-group mb-4">
+                        <label for="password" class="form-label">{{ form.password.label }}</label>
+                        {{ form.password(class="form-control cyber-input", id="password", placeholder="Enter your password") }}
+                        {% for error in form.password.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.submit(class="btn btn-primary w-100") }}
+                    </div>
+                </form>
+            </div>
+            
+            <div class="text-center">
+                <p>Don't have an account? <a href="{{ url_for('register') }}" class="text-accent">Sign up here</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+{% endblock %}

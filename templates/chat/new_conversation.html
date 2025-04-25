@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}New Conversation - CoderX{% endblock %}
+
+{% block extra_css %}
+<style>
+    .new-conversation-container {
+        max-width: 600px;
+        margin: 3rem auto;
+    }
+    
+    .new-conversation-form {
+        background-color: rgba(20, 20, 30, 0.7);
+        border-radius: 4px;
+        padding: 2rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(157, 78, 221, 0.3);
+    }
+    
+    .new-conversation-form::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(to right, #9D4EDD, #FF10F0);
+        z-index: 1;
+    }
+    
+    .new-conversation-form h2 {
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #00FF9F;
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
+    
+    .form-actions {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 2rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="new-conversation-container">
+    <div class="new-conversation-form circuit-pattern">
+        <h2 class="cyberpunk-glitch" data-text="New Conversation">New Conversation</h2>
+        
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="form-group tech-border">
+                <label for="{{ form.title.id_for_label }}" class="form-label">Conversation Title</label>
+                {{ form.title }}
+                {% if form.title.errors %}
+                <div class="form-errors">
+                    {% for error in form.title.errors %}
+                    {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <small class="helptext">Give your conversation a memorable title.</small>
+            </div>
+            
+            <div class="form-actions">
+                <a href="{% url 'chat' %}" class="btn btn-outline">Cancel</a>
+                <button type="submit" class="btn btn-primary">Create Conversation</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add scanner effect to form
+        const form = document.querySelector('.new-conversation-form');
+        if (form) {
+            form.classList.add('scanner');
+        }
+    });
+</script>
+{% endblock %}

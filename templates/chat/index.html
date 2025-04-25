@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}CoderX - Your Cyberpunk AI Companion{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-section {
+        height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .hero-content {
+        text-align: center;
+        z-index: 1;
+        max-width: 800px;
+        padding: 2rem;
+    }
+    
+    .hero-text h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1.5rem;
+        opacity: 0;
+    }
+    
+    .hero-text p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        color: #B4A0E5;
+    }
+    
+    .hero-btn {
+        margin: 0.5rem;
+    }
+    
+    .features-section {
+        padding: 4rem 0;
+        background-color: rgba(20, 20, 30, 0.7);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid rgba(157, 78, 221, 0.3);
+        border-bottom: 1px solid rgba(157, 78, 221, 0.3);
+    }
+    
+    .features-title {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .feature-card {
+        background-color: rgba(30, 30, 40, 0.7);
+        border-radius: 4px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+        border-left: 3px solid transparent;
+        height: 100%;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-5px);
+        border-left: 3px solid #00FF9F;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 15px rgba(157, 78, 221, 0.3);
+    }
+    
+    .feature-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: #9D4EDD;
+    }
+    
+    .feature-card h3 {
+        color: #00FF9F;
+        margin-bottom: 1rem;
+    }
+    
+    .typing-cursor {
+        animation: blink 1s infinite;
+        color: #00FF9F;
+    }
+    
+    @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+    }
+    
+    /* Grid layout for features */
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .hero-text h1 {
+            font-size: 2.5rem;
+        }
+        
+        .hero-text p {
+            font-size: 1rem;
+        }
+        
+        .features-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="hero-section hex-pattern">
+    <div class="hero-content">
+        <div class="hero-text">
+            <h1>CoderX AI Chat</h1>
+            <p>Your cyberpunk AI companion in the digital wasteland. Navigate the future of AI-human interaction with our advanced conversation platform.</p>
+        </div>
+        <div class="hero-buttons">
+            {% if user.is_authenticated %}
+                <a href="{% url 'chat' %}" class="btn btn-primary hero-btn">Go to Chat</a>
+                <a href="{% url 'profile' %}" class="btn btn-outline hero-btn">View Profile</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="btn btn-primary hero-btn">Login</a>
+                <a href="{% url 'register' %}" class="btn btn-outline hero-btn">Register</a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<section class="features-section">
+    <div class="container">
+        <div class="features-title">
+            <h2 class="cyberpunk-glitch" data-text="Features">Features</h2>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card tech-border">
+                <div class="feature-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h3>Advanced AI</h3>
+                <p>Engage with our state-of-the-art AI, designed to understand context and provide insightful responses.</p>
+            </div>
+            
+            <div class="feature-card tech-border">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Secure Conversations</h3>
+                <p>Your conversations are encrypted and protected. Privacy is paramount in the digital age.</p>
+            </div>
+            
+            <div class="feature-card tech-border">
+                <div class="feature-icon">
+                    <i class="fas fa-history"></i>
+                </div>
+                <h3>Conversation History</h3>
+                <p>Access your past conversations anytime. Your data is organized and easily retrievable.</p>
+            </div>
+            
+            <div class="feature-card tech-border">
+                <div class="feature-icon">
+                    <i class="fas fa-paint-brush"></i>
+                </div>
+                <h3>Cyberpunk Aesthetic</h3>
+                <p>Immerse yourself in a visually stunning cyberpunk interface that brings the future to your screen.</p>
+            </div>
+            
+            <div class="feature-card tech-border">
+                <div class="feature-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>Responsive Design</h3>
+                <p>Access CoderX from any device. Our platform adapts perfectly to desktop, tablet, and mobile.</p>
+            </div>
+            
+            <div class="feature-card tech-border">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3>Real-time Responses</h3>
+                <p>Get instant replies to your questions with our lightning-fast AI processing engine.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Hero text animation
+        const heroTextElement = document.querySelector('.hero-text h1');
+        if (heroTextElement) {
+            // Local function instead of using the one from main.js
+            const text = heroTextElement.textContent;
+            heroTextElement.textContent = '';
+            heroTextElement.style.opacity = '1';
+            
+            let i = 0;
+            const speed = 50; // Speed of the typing effect
+            
+            function typeWriter() {
+                if (i < text.length) {
+                    heroTextElement.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, speed);
+                } else {
+                    // Add blinking cursor at the end
+                    const cursor = document.createElement('span');
+                    cursor.textContent = '|';
+                    cursor.className = 'typing-cursor';
+                    heroTextElement.appendChild(cursor);
+                    
+                    // Add glitch effect after typing is complete
+                    setTimeout(() => {
+                        heroTextElement.classList.add('cyberpunk-glitch');
+                        heroTextElement.setAttribute('data-text', text);
+                    }, 500);
+                }
+            }
+            
+            typeWriter();
+        }
+    });
+</script>
+{% endblock %}

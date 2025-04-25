@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoderX - {% block title %}Your Cyberpunk AI Companion{% endblock %}</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cyberpunk.css' %}">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Cyberpunk Grid Background -->
+    <div class="cyberpunk-grid-bg"></div>
+    
+    <!-- Header -->
+    <header class="cyber-header py-3">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="{% url 'index' %}" class="logo">
+                    <h2 class="mb-0 cyberpunk-glitch" data-text="CoderX">CoderX</h2>
+                </a>
+                <nav>
+                    <ul class="nav">
+                        {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <a href="{% url 'chat' %}" class="nav-link">Chat</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'profile' %}" class="nav-link">Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a href="{% url 'login' %}" class="nav-link">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'register' %}" class="nav-link">Register</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main>
+        <div class="container mt-4">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="cyber-footer py-4 mt-5">
+        <div class="container">
+            <div class="text-center">
+                <p>&copy; {% now "Y" %} CoderX. All rights reserved.</p>
+                <p class="small text-muted">A cyberpunk AI companion built with Django.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- JavaScript -->
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

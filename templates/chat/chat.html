@@ -1,0 +1,273 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Chat - CoderX{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Chat-specific styles */
+    .chat-container {
+        display: flex;
+        height: calc(100vh - 200px);
+        min-height: 500px;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .chat-sidebar {
+        width: 280px;
+        background-color: rgba(20, 20, 30, 0.7);
+        border-radius: 4px 0 0 4px;
+        padding: 1rem;
+        border-right: 1px solid rgba(157, 78, 221, 0.3);
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .chat-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        background-color: rgba(20, 20, 30, 0.7);
+        border-radius: 0 4px 4px 0;
+    }
+    
+    .chat-header {
+        padding: 1rem;
+        border-bottom: 1px solid rgba(157, 78, 221, 0.3);
+    }
+    
+    .chat-messages {
+        flex: 1;
+        padding: 1rem;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .chat-input {
+        padding: 1rem;
+        border-top: 1px solid rgba(157, 78, 221, 0.3);
+    }
+    
+    .message {
+        margin-bottom: 1rem;
+        max-width: 80%;
+        padding: 1rem;
+        border-radius: 4px;
+    }
+    
+    .message-ai {
+        align-self: flex-start;
+        background-color: rgba(157, 78, 221, 0.1);
+        border-left: 3px solid #9D4EDD;
+    }
+    
+    .message-user {
+        align-self: flex-end;
+        background-color: rgba(0, 255, 159, 0.1);
+        border-right: 3px solid #00FF9F;
+    }
+    
+    .message-sender {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        color: #B4A0E5;
+    }
+    
+    .message-content {
+        line-height: 1.4;
+    }
+    
+    .message-timestamp {
+        font-size: 0.8rem;
+        text-align: right;
+        margin-top: 0.5rem;
+        color: #B4A0E5;
+    }
+    
+    .conversations-list {
+        margin-bottom: 1rem;
+        flex: 1;
+        overflow-y: auto;
+    }
+    
+    .conversation-item {
+        padding: 0.75rem;
+        margin-bottom: 0.5rem;
+        background-color: rgba(30, 30, 40, 0.7);
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .conversation-item:hover {
+        background-color: rgba(157, 78, 221, 0.2);
+    }
+    
+    .conversation-item.active {
+        background-color: rgba(157, 78, 221, 0.3);
+        border-left: 3px solid #00FF9F;
+    }
+    
+    .conversation-title {
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .delete-conversation-btn {
+        color: #FF10F0;
+        margin-left: 8px;
+        opacity: 0.5;
+        transition: all 0.2s ease;
+    }
+    
+    .delete-conversation-btn:hover {
+        opacity: 1;
+    }
+    
+    .new-conversation-btn {
+        margin-top: auto;
+    }
+    
+    /* Form customization */
+    .chat-input textarea {
+        resize: none;
+        background-color: rgba(30, 30, 40, 0.7);
+        border: 2px solid #6A0DAD;
+        border-radius: 4px;
+        color: #FFFFFF;
+        padding: 0.75rem;
+        width: 100%;
+        height: 80px;
+        transition: all 0.3s ease;
+    }
+    
+    .chat-input textarea:focus {
+        outline: none;
+        border-color: #9D4EDD;
+        box-shadow: 0 0 0 2px rgba(157, 78, 221, 0.25);
+    }
+    
+    .chat-input button {
+        margin-top: 0.5rem;
+    }
+    
+    .empty-chat-message {
+        text-align: center;
+        padding: 2rem;
+        color: #B4A0E5;
+    }
+    
+    .empty-chat-message i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: #9D4EDD;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .chat-container {
+            flex-direction: column;
+            height: auto;
+        }
+        
+        .chat-sidebar {
+            width: 100%;
+            border-radius: 4px 4px 0 0;
+            border-right: none;
+            border-bottom: 1px solid rgba(157, 78, 221, 0.3);
+            max-height: 200px;
+        }
+        
+        .chat-main {
+            border-radius: 0 0 4px 4px;
+            min-height: 400px;
+        }
+        
+        .message {
+            max-width: 90%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="chat-container" data-conversation-id="{{ active_conversation.id }}">
+    <!-- Sidebar with conversations list -->
+    <div class="chat-sidebar">
+        <h3 class="mb-3">Conversations</h3>
+        
+        <div class="conversations-list">
+            {% if conversations %}
+                {% for conversation in conversations %}
+                    <div class="conversation-item {% if conversation.id == active_conversation.id %}active{% endif %}">
+                        <a href="{% url 'conversation' conversation.id %}" class="conversation-title">
+                            {{ conversation.title }}
+                        </a>
+                        <a href="#" class="delete-conversation-btn" data-id="{{ conversation.id }}">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-muted">No conversations yet.</p>
+            {% endif %}
+        </div>
+        
+        <button class="btn btn-accent new-conversation-btn">New Conversation</button>
+    </div>
+    
+    <!-- Main chat area -->
+    <div class="chat-main">
+        <!-- Chat header with conversation title -->
+        <div class="chat-header">
+            <h3>{{ active_conversation.title }}</h3>
+            <small>Created: {{ active_conversation.created_at|date:"F d, Y" }}</small>
+        </div>
+        
+        <!-- Chat messages -->
+        <div class="chat-messages">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="message {% if message.is_user %}message-user{% else %}message-ai{% endif %}">
+                        <div class="message-sender">
+                            {% if message.is_user %}You{% else %}AI{% endif %}
+                        </div>
+                        <div class="message-content">
+                            {{ message.content }}
+                        </div>
+                        <div class="message-timestamp">
+                            {{ message.timestamp|date:"F d, Y, g:i a" }}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-chat-message">
+                    <i class="fas fa-robot"></i>
+                    <h4>Start a conversation</h4>
+                    <p>Send a message to start chatting with CoderX AI.</p>
+                </div>
+            {% endif %}
+        </div>
+        
+        <!-- Chat input form -->
+        <div class="chat-input">
+            <form method="POST" id="message-form" action="{% url 'send_message' active_conversation.id %}">
+                {% csrf_token %}
+                {{ form.content }}
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/chat.js' %}"></script>
+{% endblock %}

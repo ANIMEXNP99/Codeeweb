@@ -1,0 +1,136 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    <section class="hero mb-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="cyberpunk-glitch mb-4" data-text="CoderX: Your Cyberpunk AI Companion">CoderX: Your Cyberpunk AI Companion</h1>
+                <p class="lead mb-4 terminal-text">Navigate the digital wasteland with your AI assistant.</p>
+                <p class="mb-4">Explore the neon-lit corridors of knowledge with CoderX, your personal AI companion designed with a cyberpunk aesthetic. Get answers, solve problems, and dive into the future of AI interaction.</p>
+                
+                <div class="cta-buttons">
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('chat') }}" class="btn btn-primary btn-lg me-3">Start Chatting</a>
+                    {% else %}
+                        <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg me-3">Sign Up</a>
+                        <a href="{{ url_for('login') }}" class="btn btn-outline btn-lg">Login</a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-6 mt-5 mt-lg-0">
+                <div class="cyber-card scanner">
+                    <div class="card-body p-4">
+                        <div class="chat-preview">
+                            <div class="message message-ai mb-3">
+                                <div class="message-sender">CoderX</div>
+                                <div class="message-content">Hello, netrunner. How can I assist you in the digital wasteland today?</div>
+                            </div>
+                            <div class="message message-user mb-3">
+                                <div class="message-sender">User</div>
+                                <div class="message-content">Tell me about your capabilities</div>
+                            </div>
+                            <div class="message message-ai">
+                                <div class="message-sender">CoderX</div>
+                                <div class="message-content">I can help with coding problems, answer questions, generate creative content, and be your companion in this cybernetic reality. What would you like to know?</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="features mb-5">
+        <h2 class="text-center mb-5">Features</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="cyber-card h-100">
+                    <div class="card-body">
+                        <div class="feature-icon text-center mb-3">
+                            <i class="fas fa-robot fa-3x text-accent"></i>
+                        </div>
+                        <h3 class="card-title text-center">Advanced AI</h3>
+                        <p class="card-text">Powered by cutting-edge AI technology to provide intelligent and contextual responses to your questions.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="cyber-card h-100">
+                    <div class="card-body">
+                        <div class="feature-icon text-center mb-3">
+                            <i class="fas fa-history fa-3x text-accent"></i>
+                        </div>
+                        <h3 class="card-title text-center">Chat History</h3>
+                        <p class="card-text">All your conversations are saved, making it easy to reference previous discussions and continue where you left off.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="cyber-card h-100">
+                    <div class="card-body">
+                        <div class="feature-icon text-center mb-3">
+                            <i class="fas fa-lock fa-3x text-accent"></i>
+                        </div>
+                        <h3 class="card-title text-center">Secure Access</h3>
+                        <p class="card-text">Your data is protected with secure user authentication and encrypted storage for all your conversations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="how-it-works mb-5">
+        <h2 class="text-center mb-5">How It Works</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4 mb-md-0">
+                <div class="step-card tech-border p-4 text-center">
+                    <div class="step-number">1</div>
+                    <h3 class="mt-3">Create Account</h3>
+                    <p>Sign up for a free account to get started with CoderX.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4 mb-md-0">
+                <div class="step-card tech-border p-4 text-center">
+                    <div class="step-number">2</div>
+                    <h3 class="mt-3">Start a Conversation</h3>
+                    <p>Begin a new chat with CoderX and ask any question.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="step-card tech-border p-4 text-center">
+                    <div class="step-number">3</div>
+                    <h3 class="mt-3">Get Smart Responses</h3>
+                    <p>Receive intelligent, contextual answers from your AI companion.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="cta text-center mb-5">
+        <div class="cyber-card scanner p-5">
+            <h2 class="mb-4">Ready to Explore the Future?</h2>
+            <p class="mb-4">Join the ranks of netrunners using CoderX to navigate the complexities of the digital world.</p>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('chat') }}" class="btn btn-primary btn-lg">Start Chatting Now</a>
+            {% else %}
+                <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg">Sign Up for Free</a>
+            {% endif %}
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Add special animations specific to the landing page
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add parallax effect to hero section
+        const heroSection = document.querySelector('.hero');
+        if (heroSection) {
+            heroSection.classList.add('parallax');
+            heroSection.setAttribute('data-depth', '0.05');
+        }
+    });
+</script>
+{% endblock %}
