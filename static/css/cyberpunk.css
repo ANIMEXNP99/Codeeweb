@@ -35,7 +35,7 @@
   text-shadow: -1px 0 #00FF9F; /* Hardcoded accent color */
   animation: glitch-anim-2 5s infinite linear alternate-reverse;
 }
-
+/*
 @keyframes glitch-anim-1 {
   0% {
     clip: rect(17px, 9999px, 94px, 0);
@@ -168,6 +168,7 @@
   }
 }
 
+*/
 /* Neon text effect */
 .neon-text {
   color: #FFFFFF; /* Hardcoded white text */
