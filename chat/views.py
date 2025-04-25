@@ -11,7 +11,7 @@ import json
 
 def index(request):
     """Home page view"""
-    return render(request, 'chat/index.html')
+    return render(request, 'chat/chat.html')
 
 
 @login_required
